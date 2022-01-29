@@ -11,9 +11,10 @@ const Gridcompo = (props) => {
       );
   };
 
-  useEffect(() => {
-    changeColsandRows();
-  }, []);
+	useEffect(() => {
+		changeColsandRows();
+	}, []);
+
 
   return (
     <>
