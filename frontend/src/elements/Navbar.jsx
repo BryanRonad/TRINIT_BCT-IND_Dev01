@@ -13,20 +13,6 @@ const Navbar = (props) => {
         tabIndex="1"
       >
         hi navbar compo
-        {props.childtags.map((ele, index) => {
-          if (ele.element === "Navbar") {
-            return <Navbar key={index} id={index} childtags={ele.children} />;
-          }
-          if (ele.element === "Footer") {
-            return <Footer key={index} id={index} />;
-          }
-          if (ele.element === "Button") {
-            return <NewButton key={index} id={'btn'+index} />;
-          }
-          if (ele.element === "Text") {
-            return <AddText key={index} id={'text'+index} />;
-          }
-        })}
       </div>
     </>
   );
