@@ -86,6 +86,8 @@ var elementsArray = [
 			alt: "screen-reader",
 			width: "100%",
 			height: "200px",
+			margin: "0px",
+			padding: "0px",
 		},
 	},
 ];

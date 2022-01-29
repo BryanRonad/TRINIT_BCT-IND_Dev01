@@ -3,6 +3,10 @@ const AddImg = (props) => {
 	return (
 		<>
 			<img
+				style={{
+					margin: props.properties.margin,
+					padding: props.properties.padding,
+				}}
 				alt={props.properties.alt}
 				id={props.id}
 				src={props.properties.src}
