@@ -3,7 +3,7 @@ import React from "react";
 const AddImg = (props) => {
   return (
     <>
-        <img id={props.id} src='https://bit.ly/dan-abramov'  onClick={props.selectTag}/>
+        <img id={props.id} src='https://bit.ly/dan-abramov'  onClick={props.selectTag} width={200} height={100}/>
     </>
   );
 };

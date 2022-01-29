@@ -3,7 +3,7 @@ import React from "react";
 const NewButton = (props) => {
   return (
     <>
-      <Button id={props.id} colorScheme='blue'>Button</Button>
+      <Button id={props.id} onClick={props.selectTag} colorScheme='blue'>Button</Button>
     </>
   );
 };
