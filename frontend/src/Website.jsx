@@ -20,6 +20,7 @@ const Website = (props) => {
               id={index}
               childtags={ele.children}
               selectTag={props.selectTag}
+              properties={ele.properties}
             />
           );
         }
@@ -32,20 +33,49 @@ const Website = (props) => {
               childtags={ele.children}
               selectTag={props.selectTag}
               unselectTag={props.unselectTag}
+              properties={ele.properties}
             />
           );
         }
         if (ele.element === "Button") {
-          return <NewButton key={index} id={index} selectTag={props.selectTag} />;
+          return (
+            <NewButton
+              key={index}
+              id={index}
+              selectTag={props.selectTag}
+              properties={ele.properties}
+            />
+          );
         }
         if (ele.element === "Text") {
-          return <AddText key={index} id={index} selectTag={props.selectTag} />;
+          return (
+            <AddText
+              key={index}
+              id={index}
+              selectTag={props.selectTag}
+              properties={ele.properties}
+            />
+          );
         }
         if (ele.element === "Image") {
-          return <AddImg key={index} id={index} selectTag={props.selectTag} />;
+          return (
+            <AddImg
+              key={index}
+              id={index}
+              selectTag={props.selectTag}
+              properties={ele.properties}
+            />
+          );
         }
-        if (ele.element === "Grid"){
-          return <Gridcompo key={index} id={index} selectTag={props.selectTag} properties={ele.properties}/>;
+        if (ele.element === "Grid") {
+          return (
+            <Gridcompo
+              key={index}
+              id={index}
+              selectTag={props.selectTag}
+              properties={ele.properties}
+            />
+          );
         }
         if (ele.element === "Card") {
           return (
@@ -54,6 +84,7 @@ const Website = (props) => {
               id={index}
               childtags={ele.children}
               selectTag={props.selectTag}
+              properties={ele.properties}
             />
           );
         }

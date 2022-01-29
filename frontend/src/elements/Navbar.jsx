@@ -8,7 +8,7 @@ const Navbar = (props) => {
     <>
       <div
         id={props.id}
-        style={{ width: "100%", minHeight: "10%", background: "red" }}
+        style={{ width: `${props.properties.width}`, minHeight: "10%", background: "red" }}
         onClick={props.selectTag}
         tabIndex="1"
       >
