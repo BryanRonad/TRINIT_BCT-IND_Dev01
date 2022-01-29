@@ -1,23 +1,29 @@
 import React from "react";
-import Button from './Button'
+import NewButton from "./Button";
 import Footer from "./Footer";
+import AddText from "./AddText";
 
 const Navbar = (props) => {
   return (
     <>
       <div
         id={props.id}
-        style={{ width: "100%", height: "10%", background: "red" }}
+        style={{ width: "100%", minHeight: "10%", background: "red" }}
         onClick={props.addchildtags}
       >
         hi navbar compo
         {props.childtags.map((ele, index) => {
           if (ele.element === "Navbar") {
-            return <Navbar key={index} id={index} childtags={ele.children}/>;
-          } else if (ele.element === "Footer") {
+            return <Navbar key={index} id={index} childtags={ele.children} />;
+          }
+          if (ele.element === "Footer") {
             return <Footer key={index} id={index} />;
-          } else if (ele.element === "Button") {
-            return <Button key={index} id={index} />;
+          }
+          if (ele.element === "Button") {
+            return <NewButton key={index} id={index} />;
+          }
+          if (ele.element === "Text") {
+            return <AddText key={index} id={index} />;
           }
         })}
       </div>
