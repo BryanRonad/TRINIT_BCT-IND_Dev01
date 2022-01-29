@@ -1,5 +1,4 @@
 .main_div {
-	padding: 10px;
 	overflow-x: hidden;
 	overflow-y: auto;
 	width: 100%;
@@ -7,6 +6,6 @@
 	background-color: greenyellow;
 	display: flex;
 	flex-direction: column;
-	overflow-y: scroll;
+	overflow-y:scroll;
 	position: relative;
 }

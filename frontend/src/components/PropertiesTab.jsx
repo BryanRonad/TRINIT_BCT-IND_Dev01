@@ -11,9 +11,9 @@ const PropertiesTab = (props) => {
   return (
     <Box className="properties-tab">
       This is properties
-      {Object.keys(props.properties).map(function (key) {
+      {Object.keys(props.properties).map(function (key,index) {
         return (
-          <FormControl>
+          <FormControl key={index}>
             <FormLabel htmlFor={key}>{key} (in px/%/vw)</FormLabel>
             <Input
               id={key}
