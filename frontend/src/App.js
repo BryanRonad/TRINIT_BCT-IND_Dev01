@@ -51,6 +51,9 @@ function App() {
 
   useEffect(() => {
     const elementsArrayVariable = myElementsArray();
+    const webtagsVar = localStorage.getItem("Webtags");
+    // console.log(JSON.parse(webtagsVar));
+    setWebtags(JSON.parse(webtagsVar));
     setElementsArray(elementsArrayVariable);
   }, []);
 
@@ -70,11 +73,20 @@ function App() {
     getProperties();
   }, [activeid]);
 
+  useEffect(() => {
+    localStorage.setItem("Webtags", JSON.stringify(webtags));
+  }, [webtags]);
+
   const deletetag = (e) => {
     e.preventDefault();
     document.getElementById(activeid).remove();
     document.querySelector(".main_div").classList.add("active");
     setactiveid(null);
+  };
+
+  const clearWeb = (e) => {
+    e.preventDefault();
+    setWebtags([]);
   };
 
   const addelement = (event, element) => {
@@ -106,8 +118,8 @@ function App() {
     value = e.target.value;
 
     setProperites({ ...properties, [name]: value });
-	webtags[activeid].properties = {...properties,[name]: value}
-	setWebtags(webtags)
+    webtags[activeid].properties = { ...properties, [name]: value };
+    setWebtags(webtags);
   };
 
   const downloadhtml=()=>{
@@ -179,9 +191,8 @@ function App() {
                   {...provided.droppableProps}
                   ref={provided.innerRef}
                 >
-                  <Button onClick={deletetag}>delete</Button>
-                  <Button onClick={downloadhtml}>html</Button>
-				  
+                  <Button onClick={deletetag}>Delete</Button>
+                  <Button onClick={clearWeb}>Clear</Button>
                   {elementsArray.map((ele, index) => (
                     <Draggable
                       key={index}
