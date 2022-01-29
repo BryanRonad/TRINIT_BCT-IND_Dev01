@@ -21,15 +21,13 @@ import { BsImage } from "react-icons/bs";
 import PropertiesTab from "./components/PropertiesTab";
 
 function App() {
+  var i = 0;
   const [elementsArray, setElementsArray] = useState([]);
   const [webtags, setWebtags] = useState([]);
   const [activeid, setactiveid] = useState(null);
-  const [properties, setProperties] = useState({
-    width: 0,
-    height: 0,
-    index: 0,
-    columns: 0,
-    rows: 0,
+  const [properties, setProperites] = useState({
+    width: "",
+    height: "",
   });
 
   const iconSwitch = (element) => {
@@ -51,16 +49,6 @@ function App() {
     }
   };
 
-  // function handleOnDragEnd(result) {
-  //   if (!result.destination) return;
-
-  //   const items = Array.from(elementsArray);
-  //   const [reorderedItem] = items.splice(result.source.index, 1);
-  //   items.splice(result.destination.index, 0, reorderedItem);
-
-  //   setElementsArray(items);
-  // }
-
   useEffect(() => {
     const elementsArrayVariable = myElementsArray();
     setElementsArray(elementsArrayVariable);
@@ -69,7 +57,6 @@ function App() {
   const selectTag = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    console.log(e.target.id);
     setactiveid(e.target.id);
     document.querySelector(".active").classList.remove("active");
     if (e.target.id) {
@@ -77,14 +64,11 @@ function App() {
     } else {
       document.querySelector(".main_div").classList.add("active");
     }
-    getProperties();
   };
 
-  const unselectTag = (e) => {
-    e.preventDefault();
-    document.getElementById(e.target.id).style.border = "";
-    setactiveid(null);
-  };
+  useEffect(() => {
+    getProperties();
+  }, [activeid]);
 
   const deletetag = (e) => {
     e.preventDefault();
@@ -95,6 +79,7 @@ function App() {
 
   const addelement = (event, element) => {
     event.preventDefault();
+    element["elem_id"] = webtags.length;
     if (activeid) {
       if (element.child) {
         webtags[activeid]["children"].push(element);
@@ -108,34 +93,24 @@ function App() {
   };
 
   const getProperties = () => {
-    document.getElementById(activeid);
+    if (activeid) {
+      setProperites(webtags[activeid].properties);
+    }
   };
 
-  const moveLeft = (e) => {
+  let name, value;
+  const changeprop = (e) => {
     e.preventDefault();
-    console.log(
-      document.getElementById(activeid).offsetTop,
-      document.getElementById(activeid).offsetLeft
-    );
+    name = e.target.id;
+    value = e.target.value;
+
+    setProperites({ ...properties, [name]: value });
   };
 
-  const moveRight = (e) => {
-    e.preventDefault();
-    console.log(activeid.offsetTop, activeid.offsetLeft);
-  };
-
-  const moveTop = (e) => {
-    e.preventDefault();
-    console.log(activeid.offsetTop, activeid.offsetLeft);
-  };
-
-  const moveBottom = (e) => {
-    e.preventDefault();
-    console.log(activeid.offsetTop, activeid.offsetLeft);
-  };
   return (
     <>
       <DragDropContext>
+        {console.log(properties)}
         <Grid
           templateColumns="repeat(10, 1fr)"
           templateRows="repeat(18, 1fr)"
@@ -154,7 +129,7 @@ function App() {
             rowSpan={17}
             colSpan={{ base: 2, md: 2, sm: 10 }}
           >
-            <PropertiesTab />
+            <PropertiesTab properties={properties} changeprop={changeprop} />
           </GridItem>
 
           {/* Website Workspace */}
@@ -166,11 +141,7 @@ function App() {
             bg={useColorModeValue("gray.100", "gray.900")}
             borderRadius="lg"
           >
-            <Website
-              elements={webtags}
-              selectTag={selectTag}
-              unselectTag={unselectTag}
-            />
+            <Website elements={webtags} selectTag={selectTag} />
           </GridItem>
 
           {/* DnD bar */}
@@ -196,12 +167,6 @@ function App() {
                   {...provided.droppableProps}
                   ref={provided.innerRef}
                 >
-                  <div>
-                    <Button onClick={moveLeft}>Left</Button>
-                    <Button onClick={moveRight}>Right</Button>
-                    <Button onClick={moveTop}>Top</Button>
-                    <Button onClick={moveBottom}>Bottom</Button>
-                  </div>
                   <Button onClick={deletetag}>delete</Button>
                   {elementsArray.map((ele, index) => (
                     <Draggable
