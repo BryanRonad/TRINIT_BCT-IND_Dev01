@@ -95,6 +95,7 @@ function App() {
   const getProperties = () => {
     if (activeid) {
       setProperites(webtags[activeid].properties);
+
     }
   };
 
@@ -108,6 +109,15 @@ function App() {
 	webtags[activeid].properties = {...properties,[name]: value}
 	setWebtags(webtags)
   };
+
+  const downloadhtml=()=>{
+	var code = `<!DOCTYPE html>
+	<html>
+	<body>
+	
+	</body>
+	</html>`
+  }
 
   return (
     <>
@@ -170,6 +180,8 @@ function App() {
                   ref={provided.innerRef}
                 >
                   <Button onClick={deletetag}>delete</Button>
+                  <Button onClick={downloadhtml}>html</Button>
+				  
                   {elementsArray.map((ele, index) => (
                     <Draggable
                       key={index}
