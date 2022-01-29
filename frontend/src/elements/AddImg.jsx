@@ -1,9 +1,9 @@
 import { Editable, EditableInput, EditablePreview } from "@chakra-ui/react";
 import React from "react";
-const AddImg = () => {
+const AddImg = (props) => {
   return (
     <>
-        <img  src='https://bit.ly/dan-abramov'  />
+        <img id={props.id} src='https://bit.ly/dan-abramov'  onClick={props.selectTag}/>
     </>
   );
 };

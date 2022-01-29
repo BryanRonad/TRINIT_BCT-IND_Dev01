@@ -1,4 +1,4 @@
-import { Grid, GridItem } from "@chakra-ui/react";
+import { Button, Grid, GridItem } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import "./App.css";
 import myElementsArray from "./elementsArray";
@@ -39,11 +39,23 @@ function App() {
     setWebtags([...webtags]);
   };
 
-  const addchildtags = (e) => {
+  const selectTag = (e) => {
     e.preventDefault();
     setactiveid(e.target.id);
     document.getElementById(e.target.id).style.border = "2px solid white";
-    
+  };
+
+  const unselectTag = (e) => {
+    e.preventDefault();
+    console.log("hi")
+    document.getElementById(e.target.id).style.border = "";
+    setactiveid(null);
+  };
+
+  const deletetag = (e) => {
+    e.preventDefault();
+    document.getElementById(activeid).remove()
+    setactiveid(null)
   };
 
   return (
@@ -57,7 +69,7 @@ function App() {
           <GridItem w="100%" rowSpan={1} colSpan={10} bg="pink" />
 
           <GridItem w="100%" rowSpan={17} colSpan={8} bg="tomato">
-            <Website elements={webtags} addchildtags={addchildtags} />
+            <Website elements={webtags} selectTag={selectTag}  unselectTag={unselectTag}/>
           </GridItem>
 
           <GridItem w="100%" rowSpan={17} colSpan={2} bg="papayawhip">
@@ -70,6 +82,10 @@ function App() {
                   {...provided.droppableProps}
                   ref={provided.innerRef}
                 >
+                  <Button id="deleteme" style={{ width: "auto" }} onClick={deletetag}>
+                    delete
+                  </Button>
+
                   {elementsArray.map((ele, index) => (
                     <Draggable
                       key={index}

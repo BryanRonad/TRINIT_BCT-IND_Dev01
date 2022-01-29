@@ -1,9 +1,15 @@
 import React from "react";
-const AddText = () => {
+const AddText = (props) => {
   return (
     <>
-      <div style={{width:"auto",height:"auto"}} contentEditable >
-       edit text here
+      <div
+        id={props.id}
+        style={{ width: "auto", height: "auto" }}
+        contentEditable
+        onClick={props.selectTag}
+        suppressContentEditableWarning={true}
+      >
+        edit text here
       </div>
     </>
   );

@@ -6,7 +6,6 @@ var elementsArray = [
     child: false,
     children: [],
   },
-
   { element: "Footer", child: false, children: [] },
   { element: "Text", child: true },
   { element: "Image", child: true },

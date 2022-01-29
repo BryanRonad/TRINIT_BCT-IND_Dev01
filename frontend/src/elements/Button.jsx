@@ -1,9 +1,9 @@
 import { Button } from "@chakra-ui/react";
 import React from "react";
-const NewButton = () => {
+const NewButton = (props) => {
   return (
     <>
-      <Button colorScheme='blue'>Button</Button>
+      <Button id={props.id} colorScheme='blue'>Button</Button>
     </>
   );
 };

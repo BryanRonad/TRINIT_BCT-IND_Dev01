@@ -1,8 +1,14 @@
 import React from "react";
-const Footer = () => {
+const Footer = (props) => {
   return (
     <>
-      <div style={{width:"100%", minHeight: "10%",background:"green"}}>hi Footer compo</div>
+      <div
+        id={props.id}
+        style={{ width: "100%", minHeight: "10%", background: "green" }}
+        onClick={props.selectTag}
+      >
+        hi Footer compo
+      </div>
     </>
   );
 };
