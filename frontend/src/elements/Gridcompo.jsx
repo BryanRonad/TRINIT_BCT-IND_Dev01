@@ -15,13 +15,13 @@ const Gridcompo = (props) => {
 		changeColsandRows();
 	}, []);
 
-	return (
-		<>
-			<div className="Grid_div">
-				<div style={{ width: "50px", height: "50px", background: "red" }}></div>
-			</div>
-		</>
-	);
+  return (
+    <>
+      <div className="Grid_div" id={props.id} onClick={props.selectTag}>
+        <div style={{ width: "50px", height: "50px", background: "red" }}></div>
+      </div>
+    </>
+  );
 };
 
 export default Gridcompo;
