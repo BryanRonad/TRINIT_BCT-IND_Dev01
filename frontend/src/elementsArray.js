@@ -7,8 +7,8 @@ var elementsArray = [
 		properties: {
 			fontsize: "20px",
 			fontcolor: "black",
-			width: "100%",
-			height: "200px",
+			width: "150px",
+			height: "50px",
 		},
 	},
 	{
@@ -72,8 +72,8 @@ var elementsArray = [
 		properties: {
 			fontsize: "20px",
 			fontcolor: "black",
-			width: "100%",
-			height: "200px",
+			width: "auto",
+			height: "auto",
 		},
 	},
 	{

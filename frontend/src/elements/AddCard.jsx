@@ -7,6 +7,7 @@ const AddCard = (props) => {
 				style={{
 					width: props.properties.width,
 					minHeight: props.properties.height,
+					maxWidth: "100%",
 					background: props.properties.color,
 					margin: props.properties.margin,
 					padding: props.properties.padding,
