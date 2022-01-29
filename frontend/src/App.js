@@ -1,24 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import { Grid, GridItem } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import "./App.css";
+import myElementsArray from "./elementsArray";
 
 function App() {
+  const [elementsArray, setElementsArray] = useState([]);
+
+  useEffect(() => {
+    const elementsArrayVariable = myElementsArray();
+    setElementsArray(elementsArrayVariable);
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Grid
+        templateColumns="repeat(10, 1fr)"
+        templateRows="repeat(18, 1fr)"
+        height="100vh"
+      >
+        <GridItem w="100%" rowSpan={1} colSpan={10} bg="pink" />
+        <GridItem w="100%" rowSpan={17} colSpan={8} bg="tomato" />
+        <GridItem w="100%" rowSpan={17} colSpan={2} bg="papayawhip">
+          <Grid p="20px" templateColumns="repeat(2, 1fr)" gap={4}>
+            {elementsArray.map((ele) => (
+              <GridItem p="10px" bg="purple">
+                {ele.element}
+              </GridItem>
+            ))}
+          </Grid>
+        </GridItem>
+      </Grid>
+    </>
   );
 }
 
