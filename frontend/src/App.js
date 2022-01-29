@@ -134,12 +134,23 @@ function App() {
             <MainPageNavbar />
           </GridItem>
 
+          <GridItem
+            p={5}
+            m={3}
+            bg={useColorModeValue("gray.100", "gray.900")}
+            borderRadius="lg"
+            rowSpan={17}
+            colSpan={{ base: 2, md: 2, sm: 10 }}
+          >
+            <PropertiesTab />
+          </GridItem>
+
           {/* Website Workspace */}
           <GridItem
             p={5}
             m={3}
             rowSpan={17}
-            colSpan={8}
+			colSpan={{ base: 6, md: 6, sm: 7 }}
             bg={useColorModeValue("gray.100", "gray.900")}
             borderRadius="lg"
           >
@@ -157,7 +168,7 @@ function App() {
             borderRadius="lg"
             bg={useColorModeValue("gray.100", "gray.900")}
             rowSpan={17}
-            colSpan={2}
+            colSpan={{ base: 2, md: 2, sm: 3 }}
           >
             <Droppable droppableId="characters">
               {(provided) => (
