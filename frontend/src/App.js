@@ -57,19 +57,24 @@ function App() {
 		setElementsArray(elementsArrayVariable);
 	}, []);
 
-	const addelement = (event, element) => {
-		event.preventDefault();
-		if (activeid) {
-			if (element.child) {
-				webtags[activeid]["children"].push(element);
-			} else {
-				alert("yhe sir nahi hoga");
-			}
-		} else {
-			webtags.push(element);
-		}
-		setWebtags([...webtags]);
-	};
+  const selectTag = (e) => {
+    e.preventDefault();
+    setactiveid(e.target.id);
+    document.getElementById(e.target.id).style.border = "2px solid white";
+  };
+
+  const unselectTag = (e) => {
+    e.preventDefault();
+    console.log("hi")
+    document.getElementById(e.target.id).style.border = "";
+    setactiveid(null);
+  };
+
+  const deletetag = (e) => {
+    e.preventDefault();
+    document.getElementById(activeid).remove()
+    setactiveid(null)
+  };
 
 	const addchildtags = (e) => {
 		e.preventDefault();

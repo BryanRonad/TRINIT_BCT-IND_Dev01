@@ -20,24 +20,40 @@ const Website = (props) => {
               key={index}
               id={index}
               childtags={ele.children}
-              addchildtags={props.addchildtags}
+              selectTag={props.selectTag}
             />
           );
         }
+
         if (ele.element === "Footer") {
-          return <Footer key={index} id={index} />;
+          return (
+            <Footer
+              key={index}
+              id={index}
+              childtags={ele.children}
+              selectTag={props.selectTag}
+              unselectTag={props.unselectTag}
+            />
+          );
         }
         if (ele.element === "Button") {
-          return <NewButton key={index} id={index} />;
+          return <NewButton key={index} id={index} selectTag={props.selectTag} />;
         }
         if (ele.element === "Text") {
-          return <AddText key={index} id={index} />;
+          return <AddText key={index} id={index} selectTag={props.selectTag} />;
         }
         if (ele.element === "Image") {
-          return <AddImg key={index} id={index} />;
+          return <AddImg key={index} id={index} selectTag={props.selectTag} />;
         }
         if (ele.element === "Card") {
-          return <AddCard key={index} id={index} />;
+          return (
+            <AddCard
+              key={index}
+              id={index}
+              childtags={ele.children}
+              selectTag={props.selectTag}
+            />
+          );
         }
       })}
     </div>

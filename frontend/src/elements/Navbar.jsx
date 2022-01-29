@@ -9,7 +9,9 @@ const Navbar = (props) => {
       <div
         id={props.id}
         style={{ width: "100%", minHeight: "10%", background: "red" }}
-        onClick={props.addchildtags}
+        onFocus={props.selectTag}
+        onBlur={(e)=>{props.unselectTag()}}
+        tabIndex="1"
       >
         hi navbar compo
         {props.childtags.map((ele, index) => {
