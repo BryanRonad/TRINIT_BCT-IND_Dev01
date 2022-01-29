@@ -7,6 +7,7 @@ import NewButton from "./elements/Button";
 import AddText from "./elements/AddText";
 import AddCard from "./elements/AddCard";
 import AddImg from "./elements/AddImg";
+import Gridcompo from "./elements/Gridcompo";
 
 const Website = (props) => {
   return (
@@ -42,6 +43,9 @@ const Website = (props) => {
         }
         if (ele.element === "Image") {
           return <AddImg key={index} id={index} selectTag={props.selectTag} />;
+        }
+        if (ele.element === "Grid"){
+          return <Gridcompo key={index} id={index} selectTag={props.selectTag} properties={ele.properties}/>;
         }
         if (ele.element === "Card") {
           return (

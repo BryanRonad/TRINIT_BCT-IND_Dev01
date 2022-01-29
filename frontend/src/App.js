@@ -24,6 +24,13 @@ function App() {
   const [elementsArray, setElementsArray] = useState([]);
   const [webtags, setWebtags] = useState([]);
   const [activeid, setactiveid] = useState(null);
+  const [properties, setProperties] = useState({
+    width: 0,
+    height: 0,
+    index: 0,
+    columns: 0,
+    rows: 0,
+  });
 
   const iconSwitch = (element) => {
     switch (element) {
@@ -70,6 +77,7 @@ function App() {
     } else {
       document.querySelector(".main_div").classList.add("active");
     }
+    getProperties();
   };
 
   const unselectTag = (e) => {
@@ -97,6 +105,10 @@ function App() {
       webtags.push(element);
     }
     setWebtags([...webtags]);
+  };
+
+  const getProperties = () => {
+    document.getElementById(activeid);
   };
 
   const moveLeft = (e) => {
@@ -150,7 +162,7 @@ function App() {
             p={5}
             m={3}
             rowSpan={17}
-			colSpan={{ base: 6, md: 6, sm: 7 }}
+            colSpan={{ base: 6, md: 6, sm: 7 }}
             bg={useColorModeValue("gray.100", "gray.900")}
             borderRadius="lg"
           >
