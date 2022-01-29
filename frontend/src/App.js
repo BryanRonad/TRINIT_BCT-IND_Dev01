@@ -18,6 +18,7 @@ import { BsSegmentedNav } from "react-icons/bs";
 import { CgWebsite } from "react-icons/cg";
 import { MdOutlineTextFields } from "react-icons/md";
 import { BsImage } from "react-icons/bs";
+import PropertiesTab from "./components/PropertiesTab";
 
 function App() {
   const [elementsArray, setElementsArray] = useState([]);
