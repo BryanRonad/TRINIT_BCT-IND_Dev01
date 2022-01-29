@@ -1,10 +1,15 @@
 var elementsArray = [
-  { element: "Button" },
-  { element: "Card" },
-  { element: "Navbar" },
-  { element: "Footer" },
-  { element: "Text" },
-  { element: "Image" },
+  { element: "Button", child: true },
+  { element: "Card", child: true, children: [] },
+  {
+    element: "Navbar",
+    child: false,
+    children: [],
+  },
+
+  { element: "Footer", child: false, children: [] },
+  { element: "Text", child: true },
+  { element: "Image", child: true },
 ];
 
 function myElementsArray() {

@@ -3,6 +3,7 @@
   height: 80vh;
   background-color: greenyellow;
   display:flex;
+  flex-direction: column;
 }
 
 @keyframes App-logo-spin {

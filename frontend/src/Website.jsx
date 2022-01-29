@@ -1,83 +1,52 @@
 import React, { useState } from "react";
 import "./Website.css";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import Navbar from "./elements/Navbar";
+import Footer from "./elements/Footer";
+import Button from "./elements/Button";
 
-const finalSpaceCharacters = [
-  {
-    id: "gary",
-    name: "Gary Goodspeed",
-    thumb: "/images/gary.png",
-  },
-  {
-    id: "cato",
-    name: "Little Cato",
-    thumb: "/images/cato.png",
-  },
-  {
-    id: "kvn",
-    name: "KVN",
-    thumb: "/images/kvn.png",
-  },
-  {
-    id: "mooncake",
-    name: "Mooncake",
-    thumb: "/images/mooncake.png",
-  },
-  {
-    id: "quinn",
-    name: "Quinn Ergon",
-    thumb: "/images/quinn.png",
-  },
-];
+const Website = (props) => {
+  let key_index = "";
 
-const Website = () => {
-  const [characters, updateCharacters] = useState(finalSpaceCharacters);
-  const [test,settest] = useState([])
+  // const Addchildren = (value, index, prevind) => {
+  //   if (prevind) {
+  //     key_index = prevind + `${index}_`;
+  //   } else {
+  //     key_index = `${index}_`;
+  //   }
 
-  function handleOnDragEnd(result) {
-    if (!result.destination) return;
+  //   if (value.element === "Navbar") {
+  //     return (
+  //       <Navbar key={key_index} id={key_index}>
+  //         {value.children.map((value, index) => {
+  //           return Addchildren(value, index, key_index);
+  //         })}
+  //       </Navbar>
+  //     );
+  //   }
 
-    const items = Array.from(characters);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-
-    updateCharacters(items);
-  }
-
+  //   if (value.element === "Footer") {
+  //     return <Footer key={key_index} id={key_index} />;
+  //   }
+  //   if (value.element === "Button") {
+  //     console.log(value);
+  //     return <Button key={key_index} id={key_index} />;
+  //   }
+  // };
 
   return (
     <div className="main_div">
-      <DragDropContext onDragEnd={handleOnDragEnd}>
-        <Droppable droppableId="characters">
-          {(provided) => (
-            <ul
-              className="characters"
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-            >
-              {characters.map(({ id, name, thumb }, index) => {
-                return (
-                  <Draggable key={id} draggableId={id} index={index}>
-                    {(provided) => (
-                      <li
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                      >
-                        <div className="characters-thumb">
-                          <img src={thumb} alt={`${name} Thumb`} />
-                        </div>
-                        <p>{name}</p>
-                      </li>
-                    )}
-                  </Draggable>
-                );
-              })}
-              {provided.placeholder}
-            </ul>
-          )}
-        </Droppable>
-      </DragDropContext>
+      {props.elements.map((ele, index) => {
+        if (ele.element === "Navbar") {
+          return (
+            <Navbar key={index} id={index} childtags={ele.children} addchildtags={props.addchildtags}/>
+          );
+        } else if (ele.element === "Footer") {
+          return <Footer key={index} id={index} />;
+        } else if (ele.element === "Button") {
+          return <Button key={index} id={index} />;
+        }
+      })}
     </div>
   );
 };
