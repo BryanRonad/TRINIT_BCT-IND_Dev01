@@ -1,19 +1,20 @@
 var elementsArray = [
-  { element: "Button", child: true },
-  { element: "Card", child: true, children: [] },
-  {
-    element: "Navbar",
-    child: false,
-    children: [],
-  },
+	{ element: "Button", icon: "MdOutlineSmartButton", child: true },
+	{ element: "Card", icon: "BsCardText", child: true, children: [] },
+	{
+		element: "Navbar",
+		icon: "BsSegmentedNav",
+		child: false,
+		children: [],
+	},
 
-  { element: "Footer", child: false, children: [] },
-  { element: "Text", child: true },
-  { element: "Image", child: true },
+	{ element: "Footer", icon: "CgWebsite", child: false, children: [] },
+	{ element: "Text", icon: "MdOutlineTextFields", child: true },
+	{ element: "Image", icon: "BsImage", child: true },
 ];
 
 function myElementsArray() {
-  return elementsArray;
+	return elementsArray;
 }
 
 export default myElementsArray;
