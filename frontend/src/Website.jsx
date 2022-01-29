@@ -9,10 +9,8 @@ import AddCard from "./elements/AddCard";
 import AddImg from "./elements/AddImg";
 
 const Website = (props) => {
-  let key_index = "";
-
   return (
-    <div className="main_div">
+    <div className="main_div active" onClick={props.selectTag}>
       {props.elements.map((ele, index) => {
         if (ele.element === "Navbar") {
           return (

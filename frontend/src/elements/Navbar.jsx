@@ -9,8 +9,7 @@ const Navbar = (props) => {
       <div
         id={props.id}
         style={{ width: "100%", minHeight: "10%", background: "red" }}
-        onFocus={props.selectTag}
-        onBlur={(e)=>{props.unselectTag()}}
+        onClick={props.selectTag}
         tabIndex="1"
       >
         hi navbar compo
@@ -22,10 +21,10 @@ const Navbar = (props) => {
             return <Footer key={index} id={index} />;
           }
           if (ele.element === "Button") {
-            return <NewButton key={index} id={index} />;
+            return <NewButton key={index} id={'btn'+index} />;
           }
           if (ele.element === "Text") {
-            return <AddText key={index} id={index} />;
+            return <AddText key={index} id={'text'+index} />;
           }
         })}
       </div>

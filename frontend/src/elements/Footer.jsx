@@ -4,7 +4,7 @@ const Footer = (props) => {
     <>
       <div
         id={props.id}
-        style={{ width: "100%", minHeight: "10%", background: "green" }}
+        style={{ width: "100%", minHeight: "10%", background: "green",position:'absolute',bottom:'0px' }}
         onClick={props.selectTag}
       >
         hi Footer compo
