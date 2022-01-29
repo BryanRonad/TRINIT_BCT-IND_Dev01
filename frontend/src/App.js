@@ -43,6 +43,7 @@ function App() {
     e.preventDefault();
     setactiveid(e.target.id);
     document.getElementById(e.target.id).style.border = "2px solid white";
+    
   };
 
   return (
