@@ -105,6 +105,8 @@ function App() {
     value = e.target.value;
 
     setProperites({ ...properties, [name]: value });
+	webtags[activeid].properties = {...properties,[name]: value}
+	setWebtags(webtags)
   };
 
   return (
