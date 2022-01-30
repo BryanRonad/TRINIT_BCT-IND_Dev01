@@ -10,9 +10,13 @@ const Navbar = (props) => {
         id={props.id}
         style={{ width: `${props.properties.width}`, minHeight: "10%", background: "red" }}
         onClick={props.selectTag}
-        tabIndex="1"
       >
         hi navbar compo
+        {/* <div className="navbtns">
+          <button className="navbtn" contentEditable>button1</button>
+          <button className="navbtn" contentEditable>button1</button>
+          <button className="navbtn" contentEditable>button1</button>
+        </div> */}
       </div>
     </>
   );

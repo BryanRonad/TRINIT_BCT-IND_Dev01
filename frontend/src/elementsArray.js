@@ -30,6 +30,7 @@ var elementsArray = [
     elem_id: "",
     element: "Navbar",
     icon: "BsSegmentedNav",
+	html:"<div></div>",
     child: false,
     properties: {
       fontsize: "20px",

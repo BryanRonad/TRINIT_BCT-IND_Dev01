@@ -95,6 +95,10 @@ function App() {
     localStorage.setItem("Webtags", JSON.stringify(webtags));
   }, [webtags]);
 
+  useEffect(()=>{
+    console.log(properties)
+  },[properties])
+
   const deletetag = (e) => {
     e.preventDefault();
     console.log(activeid);
@@ -126,12 +130,14 @@ function App() {
 
   const getProperties = () => {
     if (typeof activeid !== "string") {
-      if (webtags[activeid]) {
+      {console.log(webtags[activeid])}
+      if (activeid) {
         setProperties(webtags[activeid].properties);
       }
     } else {
-      console.log(webtags[parseInt(activeid.split("_")[0])]);
-      // setProperties(webtags[parseInt(activeid.split("_")[0])]['children'][parseInt(activeid.split("_")[1])]);
+      // console.log(webtags[parseInt(activeid.split("_")[0])]);
+      if (activeid !== "")
+        setProperties(webtags[parseInt(activeid.split("_")[0])]["children"]);
     }
   };
 
@@ -141,7 +147,6 @@ function App() {
     name = e.target.id;
     value = e.target.value;
     let temp = webtags;
-    console.log("sauhasugf");
     setProperties({ ...properties, [name]: value });
 
     temp[activeid].properties = { ...properties, [name]: value };
@@ -150,18 +155,34 @@ function App() {
   };
 
   const downloadhtml = () => {
-    var code = `<!DOCTYPE html>
-	<html>
-	<body>
-	
-	</body>
-	</html>`;
+    var code = `<!DOCTYPE html><html>`;
+    var codestart = `<body>`;
+    var codeend = `</body></html>`;
+    var stylestart = `<style>`;
+    var styleend = `</style>`;
+
+    webtags.forEach((ele) => {
+      let style = document.getElementById(ele.elem_id).getAttribute("style");
+      document.getElementById(ele.elem_id).removeAttribute("style");
+      let html = document.getElementById(ele.elem_id);
+      console.log(style);
+      let css = `#${ele.elem_id}:{${style}}`;
+
+      // console.log(document.getElementById(ele.elem_id).style)
+
+      codestart = codestart + html.outerHTML;
+      stylestart = stylestart + css;
+    });
+    let pagestyle = stylestart + styleend;
+    code = code + pagestyle + codestart + codeend;
+    console.log(code)
+    // document.write(code);
   };
 
   return (
     <>
       <DragDropContext>
-        <webtagsContext.Provider value={[webtags,setWebtags]}>
+        <webtagsContext.Provider value={[webtags, setWebtags]}>
           <Grid
             templateColumns="repeat(10, 1fr)"
             templateRows="repeat(18, 1fr)"
@@ -224,6 +245,7 @@ function App() {
                   >
                     <Button onClick={deletetag}>Delete</Button>
                     <Button onClick={clearWeb}>Clear</Button>
+                    <Button onClick={downloadhtml}>Download</Button>
                     {elementsArray.map((ele, index) => (
                       <Draggable
                         key={index}
