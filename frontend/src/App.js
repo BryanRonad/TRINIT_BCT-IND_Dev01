@@ -95,9 +95,9 @@ function App() {
     localStorage.setItem("Webtags", JSON.stringify(webtags));
   }, [webtags]);
 
-  useEffect(()=>{
-    console.log(properties)
-  },[properties])
+  useEffect(() => {
+    console.log(properties);
+  }, [properties]);
 
   const deletetag = (e) => {
     e.preventDefault();
@@ -129,14 +129,15 @@ function App() {
   };
 
   const getProperties = () => {
-    if (typeof activeid !== "string") {
-      if (activeid) {
-        setProperties(webtags[activeid].properties);
-      }
-    } else {
-      // console.log(webtags[parseInt(activeid.split("_")[0])]);
-      if (activeid !== "")
-        setProperties(webtags[parseInt(activeid.split("_")[0])]["children"]);
+    console.log(activeid);
+    setProperties(webtags[activeid] && webtags[activeid].properties);
+    if (typeof activeid === "string" && activeid.includes("_")) {
+      let webtagsVar = webtags;
+      setProperties(
+        webtagsVar[parseInt(activeid.split("_")[0])]["children"][
+          parseInt(activeid.split("_")[1])
+        ]
+      );
     }
   };
 
@@ -147,10 +148,19 @@ function App() {
     value = e.target.value;
     let temp = webtags;
     setProperties({ ...properties, [name]: value });
-
-    temp[activeid].properties = { ...properties, [name]: value };
-    temp = JSON.parse(JSON.stringify(temp));
-    setWebtags(temp);
+    if (activeid.includes("_")) {
+      temp[parseInt(activeid.split("_")[0])]["children"][
+        parseInt(activeid.split("_")[1])
+      ] = { ...properties, [name]: value };
+      temp = JSON.parse(JSON.stringify(temp));
+      setWebtags(temp);
+      console.log(temp);
+    } else {
+      if (temp[activeid])
+        temp[activeid].properties = { ...properties, [name]: value };
+      temp = JSON.parse(JSON.stringify(temp));
+      setWebtags(temp);
+    }
   };
 
   const downloadhtml = () => {
@@ -189,7 +199,7 @@ function App() {
     });
     let pagestyle = stylestart + styleend;
     code = code + pagestyle + codestart + codeend;
-    console.log(code)
+    console.log(code);
     // document.write(code);
   };
 

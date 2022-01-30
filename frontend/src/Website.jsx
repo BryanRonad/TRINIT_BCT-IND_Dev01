@@ -12,7 +12,7 @@ import Gridcompo from "./elements/Gridcompo";
 const Website = (props) => {
   return (
     <div className="main_div" onClick={props.selectTag}>
-      {props.elements &&
+      {props.elements instanceof Array &&
         props.elements.map((ele, index) => {
           if (ele.element === "Navbar") {
             return (
