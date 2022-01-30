@@ -4,10 +4,11 @@ const Footer = (props) => {
     <>
       <div
         id={props.id}
-        style={{ width: "100%", minHeight: "10%", background: "green",position:'absolute',bottom:'0px' }}
+        style={{ width: "100%", minHeight: "10%", background: "green",position:'absolute',bottom:'0px',color: 'white',textAlign: 'center' }}
         onClick={props.selectTag}
+        contentEditable
       >
-        hi Footer compo
+        Footer
       </div>
     </>
   );

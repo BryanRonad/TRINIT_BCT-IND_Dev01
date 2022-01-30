@@ -4,7 +4,15 @@ import {
   Grid,
   GridItem,
   Icon,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   useColorModeValue,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { createContext, useEffect, useState } from "react";
 import "./App.css";
@@ -24,6 +32,8 @@ export const webtagsContext = createContext([]);
 
 function App() {
   var i = 0;
+  const [code,setCode] = useState(`<!DOCTYPE html><html>`);
+  const { isOpen, onOpen, onClose } = useDisclosure()
   const [elementsArray, setElementsArray] = useState([]);
   const [webtags, setWebtags] = useState([]);
   const [activeid, setactiveid] = useState(null);
@@ -164,7 +174,6 @@ function App() {
   };
 
   const downloadhtml = () => {
-    var code = `<!DOCTYPE html><html>`;
     var codestart = `<body>`;
     var codeend = `</body></html>`;
     var stylestart = `<style>.div_wrrapper{
@@ -188,6 +197,7 @@ function App() {
     webtags.forEach((ele) => {
       let style = document.getElementById(ele.elem_id).getAttribute("style");
       document.getElementById(ele.elem_id).removeAttribute("style");
+      document.getElementById(ele.elem_id).setAttribute("style",style)
       let html = document.getElementById(ele.elem_id);
       console.log(style);
       let css = `#${ele.elem_id} {${style}}`;
@@ -198,13 +208,30 @@ function App() {
       stylestart = stylestart + css;
     });
     let pagestyle = stylestart + styleend;
-    code = code + pagestyle + codestart + codeend;
-    console.log(code);
-    // document.write(code);
+    setCode(code + pagestyle + codestart + codeend);
+    onOpen()
   };
 
   return (
     <>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Html code</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            {code}
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Close
+            </Button>
+            <Button variant="ghost">Copy</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
       <DragDropContext>
         <webtagsContext.Provider value={[webtags, setWebtags]}>
           <Grid
