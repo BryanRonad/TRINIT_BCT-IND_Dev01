@@ -130,7 +130,6 @@ function App() {
 
   const getProperties = () => {
     if (typeof activeid !== "string") {
-      {console.log(webtags[activeid])}
       if (activeid) {
         setProperties(webtags[activeid].properties);
       }
@@ -158,7 +157,22 @@ function App() {
     var code = `<!DOCTYPE html><html>`;
     var codestart = `<body>`;
     var codeend = `</body></html>`;
-    var stylestart = `<style>`;
+    var stylestart = `<style>.div_wrrapper{
+      width:100%;
+      height:auto;
+    }
+    .main_div {
+      overflow-x: hidden;
+      overflow-y: auto;
+      width: 100%;
+      height: 80vh;
+      background-color: greenyellow;
+      display: flex;
+      flex-direction: column;
+      overflow-y:scroll;
+      position: relative;
+    }
+    `;
     var styleend = `</style>`;
 
     webtags.forEach((ele) => {
@@ -166,7 +180,7 @@ function App() {
       document.getElementById(ele.elem_id).removeAttribute("style");
       let html = document.getElementById(ele.elem_id);
       console.log(style);
-      let css = `#${ele.elem_id}:{${style}}`;
+      let css = `#${ele.elem_id} {${style}}`;
 
       // console.log(document.getElementById(ele.elem_id).style)
 
