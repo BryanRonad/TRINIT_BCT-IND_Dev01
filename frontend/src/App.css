@@ -41,6 +41,55 @@
   cursor: move;
 }
 
+.div_wrrapper{
+	width:100%;
+	height:auto;
+}
+
 .active {
   border: 4px solid #3b97e3;
+}
+
+.childactive{
+	border: 4px solid navy;
+}
+
+::-webkit-scrollbar {
+  background-color: transparent;
+  width: 0px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-image: linear-gradient(0deg, transparent);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: transparent;
+}
+
+
+.navbar{
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+button {
+  float: left;
+}
+button a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 18px 16px;
+  text-decoration: none;
+}
+
+button a:hover:not(.active) {
+  background-color: #111;
 }

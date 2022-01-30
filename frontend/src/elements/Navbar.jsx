@@ -8,11 +8,28 @@ const Navbar = (props) => {
     <>
       <div
         id={props.id}
-        style={{ width: `${props.properties.width}`, minHeight: "10%", background: "red" }}
+        style={{
+          width: `${props.properties.width}`,
+          minHeight: "10%",
+          background: "orange",
+        }}
+        className="navbar"
         onClick={props.selectTag}
-        tabIndex="1"
       >
-        hi navbar compo
+        <button>
+          <a href="#home">
+            Home
+          </a>
+        </button>
+        <button>
+          <a href="#news">News</a>
+        </button>
+        <button>
+          <a href="#contact">Contact</a>
+        </button>
+        <button style={{float:"right"}}>
+          <a href="#about">About</a>
+        </button>
       </div>
     </>
   );

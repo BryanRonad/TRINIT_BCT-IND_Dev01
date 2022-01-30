@@ -4,9 +4,17 @@ import {
   Grid,
   GridItem,
   Icon,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   useColorModeValue,
+  useDisclosure,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import "./App.css";
 import myElementsArray from "./elementsArray";
 import Website from "./Website";
@@ -20,12 +28,16 @@ import { MdOutlineTextFields } from "react-icons/md";
 import { BsImage } from "react-icons/bs";
 import PropertiesTab from "./components/PropertiesTab";
 
+export const webtagsContext = createContext([]);
+
 function App() {
   var i = 0;
+  const [code,setCode] = useState(`<!DOCTYPE html><html>`);
+  const { isOpen, onOpen, onClose } = useDisclosure()
   const [elementsArray, setElementsArray] = useState([]);
   const [webtags, setWebtags] = useState([]);
   const [activeid, setactiveid] = useState(null);
-  const [properties, setProperites] = useState({
+  const [properties, setProperties] = useState({
     width: "",
     height: "",
   });
@@ -53,7 +65,7 @@ function App() {
     const elementsArrayVariable = myElementsArray();
     const webtagsVar = localStorage.getItem("Webtags");
     // console.log(JSON.parse(webtagsVar));
-    setWebtags(JSON.parse(webtagsVar));
+    setWebtags(JSON.parse(webtagsVar) ? JSON.parse(webtagsVar) : []);
     setElementsArray(elementsArrayVariable);
   }, []);
 
@@ -61,11 +73,27 @@ function App() {
     e.preventDefault();
     e.stopPropagation();
     setactiveid(e.target.id);
-    document.querySelector(".active").classList.remove("active");
+    if (document.querySelector(".active")) {
+      document.querySelector(".active").classList.remove("active");
+    }
     if (e.target.id) {
       document.getElementById(e.target.id).classList.add("active");
     } else {
       document.querySelector(".main_div").classList.add("active");
+    }
+  };
+
+  const childselectTag = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setactiveid(e.target.id);
+    if (document.querySelector(".childactive")) {
+      document.querySelector(".childactive").classList.remove("childactive");
+    }
+    if (e.target.id) {
+      document.getElementById(e.target.id).classList.add("childactive");
+    } else {
+      document.querySelector(".main_div").classList.add("childactive");
     }
   };
 
@@ -77,8 +105,13 @@ function App() {
     localStorage.setItem("Webtags", JSON.stringify(webtags));
   }, [webtags]);
 
+  useEffect(() => {
+    console.log(properties);
+  }, [properties]);
+
   const deletetag = (e) => {
     e.preventDefault();
+    console.log(activeid);
     document.getElementById(activeid).remove();
     document.querySelector(".main_div").classList.add("active");
     setactiveid(null);
@@ -91,6 +124,7 @@ function App() {
 
   const addelement = (event, element) => {
     event.preventDefault();
+
     element["elem_id"] = webtags.length;
     if (activeid) {
       if (element.child) {
@@ -105,8 +139,15 @@ function App() {
   };
 
   const getProperties = () => {
-    if (activeid) {
-      setProperites(webtags[activeid].properties);
+    console.log(activeid);
+    setProperties(webtags[activeid] && webtags[activeid].properties);
+    if (typeof activeid === "string" && activeid.includes("_")) {
+      let webtagsVar = webtags;
+      setProperties(
+        webtagsVar[parseInt(activeid.split("_")[0])]["children"][
+          parseInt(activeid.split("_")[1])
+        ]
+      );
     }
   };
 
@@ -115,108 +156,185 @@ function App() {
     e.preventDefault();
     name = e.target.id;
     value = e.target.value;
+    let temp = webtags;
+    setProperties({ ...properties, [name]: value });
+    if (activeid.includes("_")) {
+      temp[parseInt(activeid.split("_")[0])]["children"][
+        parseInt(activeid.split("_")[1])
+      ] = { ...properties, [name]: value };
+      temp = JSON.parse(JSON.stringify(temp));
+      setWebtags(temp);
+      console.log(temp);
+    } else {
+      if (temp[activeid])
+        temp[activeid].properties = { ...properties, [name]: value };
+      temp = JSON.parse(JSON.stringify(temp));
+      setWebtags(temp);
+    }
+  };
 
-    setProperites({ ...properties, [name]: value });
-    webtags[activeid].properties = { ...properties, [name]: value };
-    setWebtags(webtags);
+  const downloadhtml = () => {
+    var codestart = `<body>`;
+    var codeend = `</body></html>`;
+    var stylestart = `<style>.div_wrrapper{
+      width:100%;
+      height:auto;
+    }
+    .main_div {
+      overflow-x: hidden;
+      overflow-y: auto;
+      width: 100%;
+      height: 80vh;
+      background-color: greenyellow;
+      display: flex;
+      flex-direction: column;
+      overflow-y:scroll;
+      position: relative;
+    }
+    `;
+    var styleend = `</style>`;
+
+    webtags.forEach((ele) => {
+      let style = document.getElementById(ele.elem_id).getAttribute("style");
+      document.getElementById(ele.elem_id).removeAttribute("style");
+      document.getElementById(ele.elem_id).setAttribute("style",style)
+      let html = document.getElementById(ele.elem_id);
+      console.log(style);
+      let css = `#${ele.elem_id} {${style}}`;
+
+      // console.log(document.getElementById(ele.elem_id).style)
+
+      codestart = codestart + html.outerHTML;
+      stylestart = stylestart + css;
+    });
+    let pagestyle = stylestart + styleend;
+    setCode(code + pagestyle + codestart + codeend);
+    onOpen()
   };
 
   return (
     <>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Html code</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            {code}
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Close
+            </Button>
+            <Button variant="ghost">Copy</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
       <DragDropContext>
-        {console.log(properties)}
-        <Grid
-          templateColumns="repeat(10, 1fr)"
-          templateRows="repeat(18, 1fr)"
-          height="100vh"
-        >
-          {/* Navigation Bar */}
-          <GridItem w="100%" rowSpan={1} colSpan={10} bg="pink">
-            <MainPageNavbar />
-          </GridItem>
-
-          <GridItem
-            p={5}
-            m={3}
-            bg={useColorModeValue("gray.100", "gray.900")}
-            borderRadius="lg"
-            rowSpan={17}
-            colSpan={{ base: 2, md: 2, sm: 10 }}
+        <webtagsContext.Provider value={[webtags, setWebtags]}>
+          <Grid
+            templateColumns="repeat(10, 1fr)"
+            templateRows="repeat(18, 1fr)"
+            height="100vh"
           >
-            <PropertiesTab properties={properties} changeprop={changeprop} />
-          </GridItem>
+            {/* Navigation Bar */}
+            <GridItem w="100%" rowSpan={1} colSpan={10} bg="pink">
+              <MainPageNavbar />
+            </GridItem>
 
-          {/* Website Workspace */}
-          <GridItem
-            p={5}
-            m={3}
-            rowSpan={17}
-            colSpan={{ base: 6, md: 6, sm: 7 }}
-            bg={useColorModeValue("gray.100", "gray.900")}
-            borderRadius="lg"
-          >
-            <Website elements={webtags} selectTag={selectTag} />
-          </GridItem>
+            <GridItem
+              p={5}
+              m={3}
+              bg={useColorModeValue("gray.100", "gray.900")}
+              borderRadius="lg"
+              rowSpan={17}
+              colSpan={{ base: 2, md: 2, sm: 10 }}
+            >
+              <PropertiesTab properties={properties} changeprop={changeprop} />
+            </GridItem>
 
-          {/* DnD bar */}
-          <GridItem
-            p={5}
-            m={3}
-            borderRadius="lg"
-            bg={useColorModeValue("gray.100", "gray.900")}
-            rowSpan={17}
-            colSpan={{ base: 2, md: 2, sm: 3 }}
-          >
-            <Droppable droppableId="characters">
-              {(provided) => (
-                <Grid
-                  p={1}
-                  templateColumns={{
-                    base: "repeat(2, 1fr)",
-                    xl: "repeat(2, 1fr)",
-                    md: "repeat(1, 1fr)",
-                    sm: "repeat(1, 1fr)",
-                  }}
-                  gap={4}
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                >
-                  <Button onClick={deletetag}>Delete</Button>
-                  <Button onClick={clearWeb}>Clear</Button>
-                  {elementsArray.map((ele, index) => (
-                    <Draggable
-                      key={index}
-                      draggableId={index.toString()}
-                      index={index}
-                    >
-                      {(provided) => (
-                        <>
-                          <GridItem
-                            className="hover-items"
-                            bg="pink.200"
-                            textAlign="center"
-                            p={2}
-                            borderRadius="lg"
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            onClick={(e) => addelement(e, ele)}
-                          >
-                            <Flex direction="row" justifyContent="space-evenly">
-                              {iconSwitch(ele.element)}
-                              {ele.element}
-                            </Flex>
-                          </GridItem>
-                        </>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </Grid>
-              )}
-            </Droppable>
-          </GridItem>
-        </Grid>
+            {/* Website Workspace */}
+            <GridItem
+              p={5}
+              m={3}
+              rowSpan={17}
+              colSpan={{ base: 6, md: 6, sm: 7 }}
+              bg={useColorModeValue("gray.100", "gray.900")}
+              borderRadius="lg"
+            >
+              <Website
+                elements={webtags}
+                selectTag={selectTag}
+                childselectTag={childselectTag}
+              />
+            </GridItem>
+
+            {/* DnD bar */}
+            <GridItem
+              p={5}
+              m={3}
+              borderRadius="lg"
+              bg={useColorModeValue("gray.100", "gray.900")}
+              rowSpan={17}
+              colSpan={{ base: 2, md: 2, sm: 3 }}
+            >
+              <Droppable droppableId="characters">
+                {(provided) => (
+                  <Grid
+                    p={1}
+                    templateColumns={{
+                      base: "repeat(2, 1fr)",
+                      xl: "repeat(2, 1fr)",
+                      md: "repeat(1, 1fr)",
+                      sm: "repeat(1, 1fr)",
+                    }}
+                    gap={4}
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                  >
+                    <Button onClick={deletetag}>Delete</Button>
+                    <Button onClick={clearWeb}>Clear</Button>
+                    <Button onClick={downloadhtml}>Download</Button>
+                    {elementsArray.map((ele, index) => (
+                      <Draggable
+                        key={index}
+                        draggableId={index.toString()}
+                        index={index}
+                      >
+                        {(provided) => (
+                          <>
+                            <GridItem
+                              className="hover-items"
+                              bg="pink.200"
+                              textAlign="center"
+                              p={2}
+                              borderRadius="lg"
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              onClick={(e) => addelement(e, ele)}
+                            >
+                              <Flex
+                                direction="row"
+                                justifyContent="space-evenly"
+                              >
+                                {iconSwitch(ele.element)}
+                                {ele.element}
+                              </Flex>
+                            </GridItem>
+                          </>
+                        )}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
+                  </Grid>
+                )}
+              </Droppable>
+            </GridItem>
+          </Grid>
+        </webtagsContext.Provider>
       </DragDropContext>
     </>
   );
